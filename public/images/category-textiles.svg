@@ -1,0 +1,10 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="400" fill="#F1E7D6"/>
+  <path d="M110 150 Q200 110 290 150 L290 260 Q200 300 110 260 Z" fill="#C9962B"/>
+  <path d="M110 150 Q200 110 290 150" stroke="#8E4230" stroke-width="6" fill="none"/>
+  <line x1="130" y1="165" x2="130" y2="270" stroke="#254441" stroke-width="4" opacity="0.5"/>
+  <line x1="165" y1="150" x2="165" y2="288" stroke="#254441" stroke-width="4" opacity="0.5"/>
+  <line x1="200" y1="145" x2="200" y2="295" stroke="#254441" stroke-width="4" opacity="0.5"/>
+  <line x1="235" y1="150" x2="235" y2="288" stroke="#254441" stroke-width="4" opacity="0.5"/>
+  <line x1="270" y1="165" x2="270" y2="270" stroke="#254441" stroke-width="4" opacity="0.5"/>
+</svg>
