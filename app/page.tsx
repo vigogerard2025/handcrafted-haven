@@ -1,29 +1,39 @@
 import Link from "next/link";
+import Image from "next/image";
 import { sql } from "@/app/lib/db";
+import { getProductImage } from "@/app/lib/utils";
 
 const categories = [
   {
     name: "Ceramics",
     slug: "Pottery",
-    blurb: "Handcrafted pottery and ceramic pieces for everyday living.",
+    blurb: "Hand-thrown pottery and ceramic pieces for everyday living.",
+    image: "/images/product-vase.svg",
   },
   {
     name: "Woven Goods",
     slug: "Textiles",
-    blurb: "Handmade baskets, textiles, and fiber creations.",
+    blurb: "Handwoven textiles, scarves, and fiber creations.",
+    image: "/images/product-scarf.svg",
   },
   {
-    name: "Jewelry",
-    slug: "Jewelry",
-    blurb: "Unique artisan jewelry made with carefully selected materials.",
+    name: "Woodwork",
+    slug: "Woodwork",
+    blurb: "Reclaimed and sustainably sourced wooden pieces.",
+    image: "/images/product-cutting-board.svg",
   },
 ];
 
 async function getFeaturedProducts() {
   try {
     return await sql`
-      SELECT p.*, u.name AS seller_name
-      FROM products p JOIN users u ON u.id = p.seller_id
+      SELECT p.*, u.name AS seller_name,
+        COALESCE(AVG(r.rating), 0) AS avg_rating,
+        COUNT(r.id) AS review_count
+      FROM products p
+      JOIN users u ON u.id = p.seller_id
+      LEFT JOIN reviews r ON r.product_id = p.id
+      GROUP BY p.id, u.name
       ORDER BY p.created_at DESC
       LIMIT 3
     `;
@@ -32,19 +42,36 @@ async function getFeaturedProducts() {
   }
 }
 
+async function getStats() {
+  try {
+    const [row] = await sql`
+      SELECT
+        (SELECT COUNT(*) FROM users WHERE role = 'seller') AS artisan_count,
+        (SELECT COUNT(*) FROM products) AS product_count,
+        (SELECT COUNT(*) FROM reviews) AS review_count
+    `;
+    return row;
+  } catch {
+    return { artisan_count: 0, product_count: 0, review_count: 0 };
+  }
+}
+
 export default async function Home() {
-  const products = await getFeaturedProducts();
+  const [products, stats] = await Promise.all([
+    getFeaturedProducts(),
+    getStats(),
+  ]);
 
   return (
     <main>
       {/* Hero */}
-      <section className="bg-[#F1E7D6]">
-        <div className="max-w-6xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-12 items-center">
+      <section className="relative bg-gradient-to-b from-[#F1E7D6] to-[#EAE0CC] overflow-hidden">
+        <div className="max-w-6xl mx-auto px-6 pt-24 pb-20 grid md:grid-cols-2 gap-12 items-center relative z-10">
           <div>
             <p className="uppercase tracking-[0.2em] text-xs text-[#254441] font-semibold mb-4">
               Made by hand. Chosen with heart.
             </p>
-            <h1 className="text-5xl font-semibold leading-tight text-[#1a2e2b]">
+            <h1 className="text-5xl font-semibold leading-[1.08] text-[#1a2e2b]">
               Discover unique handcrafted treasures from talented artisans.
             </h1>
             <p className="text-lg text-gray-700 mt-6 max-w-md">
@@ -55,7 +82,7 @@ export default async function Home() {
             <div className="mt-8 flex gap-4">
               <Link
                 href="/products"
-                className="bg-[#254441] text-white px-6 py-3 rounded-md font-medium hover:bg-[#1a312e] transition-colors"
+                className="bg-[#254441] text-white px-6 py-3 rounded-md font-medium hover:bg-[#1a312e] transition-colors shadow-sm"
               >
                 Browse products
               </Link>
@@ -67,8 +94,54 @@ export default async function Home() {
               </Link>
             </div>
           </div>
-          <div className="aspect-square bg-white/50 rounded-2xl flex items-center justify-center border border-[#254441]/10">
-            <span className="text-6xl">🧺</span>
+          <div className="relative">
+            <div className="aspect-square rounded-2xl relative overflow-hidden shadow-xl rotate-2">
+              <Image
+                src="/images/product-vase.svg"
+                alt="Handcrafted ceramic vase"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+            <div className="absolute -bottom-6 -left-6 w-32 h-32 rounded-xl overflow-hidden shadow-lg -rotate-6 border-4 border-white hidden sm:block">
+              <Image
+                src="/images/product-scarf.svg"
+                alt="Handwoven scarf"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Stats strip */}
+        <div className="border-t border-[#254441]/10 bg-white/40 backdrop-blur-sm relative z-10">
+          <div className="max-w-6xl mx-auto px-6 py-6 grid grid-cols-3 text-center gap-4">
+            <div>
+              <p className="text-2xl font-semibold text-[#254441]">
+                {stats.artisan_count}+
+              </p>
+              <p className="text-xs text-gray-600 uppercase tracking-wide mt-1">
+                Artisans
+              </p>
+            </div>
+            <div>
+              <p className="text-2xl font-semibold text-[#254441]">
+                {stats.product_count}+
+              </p>
+              <p className="text-xs text-gray-600 uppercase tracking-wide mt-1">
+                Handmade products
+              </p>
+            </div>
+            <div>
+              <p className="text-2xl font-semibold text-[#254441]">
+                {stats.review_count}+
+              </p>
+              <p className="text-xs text-gray-600 uppercase tracking-wide mt-1">
+                Customer reviews
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -85,24 +158,32 @@ export default async function Home() {
         </p>
         <div className="grid md:grid-cols-3 gap-6">
           {categories.map((cat) => (
-            <div
+            <Link
               key={cat.slug}
-              className="bg-white border border-gray-200 rounded-xl p-6"
+              href={`/products?category=${encodeURIComponent(cat.slug)}`}
+              className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow group"
             >
-              <h3 className="text-xl font-semibold mb-2">{cat.name}</h3>
-              <p className="text-gray-600 text-sm mb-4">{cat.blurb}</p>
-              <Link
-                href={`/products?category=${encodeURIComponent(cat.slug)}`}
-                className="text-[#254441] font-medium text-sm hover:underline"
-              >
-                Browse products in {cat.name} →
-              </Link>
-            </div>
+              <div className="aspect-video relative bg-[#F1E7D6] overflow-hidden">
+                <Image
+                  src={cat.image}
+                  alt={cat.name}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-2">{cat.name}</h3>
+                <p className="text-gray-600 text-sm mb-4">{cat.blurb}</p>
+                <span className="text-[#254441] font-medium text-sm group-hover:underline">
+                  Browse products in {cat.name} →
+                </span>
+              </div>
+            </Link>
           ))}
         </div>
       </section>
 
-      {/* Productos destacados (datos reales de Neon) */}
+      {/* Productos destacados */}
       <section id="featured-products" className="bg-gray-50 py-20">
         <div className="max-w-6xl mx-auto px-6">
           <p className="uppercase tracking-[0.2em] text-xs text-[#254441] font-semibold mb-2">
@@ -128,20 +209,35 @@ export default async function Home() {
                 <Link
                   key={p.id}
                   href={`/products/${p.id}`}
-                  className="bg-white rounded-xl overflow-hidden border border-gray-200 hover:shadow-md transition-shadow"
+                  className="bg-white rounded-xl overflow-hidden border border-gray-200 hover:shadow-lg hover:-translate-y-0.5 transition-all group"
                 >
-                  <div className="aspect-[4/3] bg-[#F1E7D6] flex items-center justify-center text-3xl">
-                    🎨
+                  <div className="aspect-[4/3] relative overflow-hidden bg-[#F1E7D6]">
+                    <Image
+                      src={getProductImage(p.category, p.image_url)}
+                      alt={p.name}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <span className="absolute top-3 left-3 bg-white/90 backdrop-blur text-[#254441] text-xs font-semibold px-2.5 py-1 rounded-full">
+                      {p.category}
+                    </span>
                   </div>
                   <div className="p-4">
-                    <p className="text-xs text-[#254441] font-medium mb-1">
-                      {p.category}
-                    </p>
-                    <h3 className="font-semibold">{p.name}</h3>
+                    <h3 className="font-semibold group-hover:text-[#254441] transition-colors">
+                      {p.name}
+                    </h3>
                     <p className="text-sm text-gray-500 mt-1">
                       By {p.seller_name}
                     </p>
-                    <p className="font-semibold mt-2">${p.price}</p>
+                    <div className="flex items-center justify-between mt-3">
+                      <p className="font-semibold">${p.price}</p>
+                      {Number(p.review_count) > 0 && (
+                        <p className="text-xs text-gray-500 flex items-center gap-1">
+                          <span className="text-[#C9962B]">★</span>
+                          {Number(p.avg_rating).toFixed(1)}
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </Link>
               ))}
@@ -152,8 +248,13 @@ export default async function Home() {
 
       {/* Sobre los artesanos */}
       <section className="max-w-6xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
-        <div className="aspect-video bg-[#F1E7D6] rounded-2xl flex items-center justify-center text-5xl">
-          🧵
+        <div className="aspect-video relative rounded-2xl overflow-hidden shadow-md">
+          <Image
+            src="/images/product-table-runner.svg"
+            alt="Artisan woven table runner"
+            fill
+            className="object-cover"
+          />
         </div>
         <div>
           <p className="uppercase tracking-[0.2em] text-xs text-[#254441] font-semibold mb-2">
@@ -167,17 +268,20 @@ export default async function Home() {
             journey, showcase their skills, and connect with customers who
             appreciate unique handmade products.
           </p>
-          <ul className="space-y-2 text-gray-700 text-sm mb-6">
-            <li>
-              • Artisan profiles that highlight each maker&apos;s story and
+          <ul className="space-y-3 text-gray-700 text-sm mb-6">
+            <li className="flex gap-2">
+              <span className="text-[#254441]">✓</span>
+              Artisan profiles that highlight each maker&apos;s story and
               craftsmanship
             </li>
-            <li>
-              • Product details that explain materials, techniques, and creative
+            <li className="flex gap-2">
+              <span className="text-[#254441]">✓</span>
+              Product details that explain materials, techniques, and creative
               processes
             </li>
-            <li>
-              • A welcoming marketplace designed for customers and creators
+            <li className="flex gap-2">
+              <span className="text-[#254441]">✓</span>A welcoming marketplace
+              designed for customers and creators
             </li>
           </ul>
           <Link
@@ -188,10 +292,6 @@ export default async function Home() {
           </Link>
         </div>
       </section>
-
-      <footer className="border-t border-gray-200 py-10 text-center text-sm text-gray-500">
-        Handcrafted Haven · WDD 430 Individual Project
-      </footer>
     </main>
   );
 }

@@ -1,0 +1,34 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="runnerBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EAF0E4"/>
+      <stop offset="100%" stop-color="#D9E3CF"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#runnerBg)"/>
+  <ellipse cx="200" cy="330" rx="150" ry="16" fill="#254441" opacity="0.1"/>
+
+  <!-- Mesa (superficie sutil) -->
+  <rect x="40" y="230" width="320" height="60" rx="8" fill="#D8C7A8" opacity="0.5"/>
+
+  <!-- Camino de mesa -->
+  <rect x="70" y="140" width="260" height="110" rx="6" fill="#C9962B"/>
+  <rect x="70" y="140" width="260" height="14" fill="#8E4230"/>
+  <rect x="70" y="236" width="260" height="14" fill="#8E4230"/>
+
+  <!-- patrón geométrico -->
+  <g fill="#254441" opacity="0.85">
+    <polygon points="100,175 115,190 100,205 85,190"/>
+    <polygon points="150,175 165,190 150,205 135,190"/>
+    <polygon points="200,175 215,190 200,205 185,190"/>
+    <polygon points="250,175 265,190 250,205 235,190"/>
+    <polygon points="300,175 315,190 300,205 285,190"/>
+  </g>
+  <g fill="#F1E7D6" opacity="0.9">
+    <circle cx="100" cy="190" r="4"/>
+    <circle cx="150" cy="190" r="4"/>
+    <circle cx="200" cy="190" r="4"/>
+    <circle cx="250" cy="190" r="4"/>
+    <circle cx="300" cy="190" r="4"/>
+  </g>
+</svg>

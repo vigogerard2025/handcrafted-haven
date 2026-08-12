@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import ReviewForm from "@/app/ui/review-form";
 import Image from "next/image";
 import { getProductImage } from "@/app/lib/utils";
-
+import Link from "next/link";
 async function getProduct(id: string) {
   try {
     const [product] = await sql`
@@ -63,25 +63,53 @@ export default async function ProductPage({
           />
         </div>
         <div>
-          <p className="text-xs text-[#254441] font-medium mb-1">
+          <p className="text-xs text-[#254441] font-semibold uppercase tracking-wide mb-2">
             {product.category}
           </p>
-          <h1 className="text-3xl font-semibold">{product.name}</h1>
-          <p className="text-xl font-semibold mt-2">${product.price}</p>
+          <h1 className="text-4xl font-bold leading-tight tracking-tight">
+            {" "}
+            {product.name}
+          </h1>
+          <p className="text-gray-600 mt-4">{product.description}</p>
+
+          <p className="text-sm text-gray-600 mt-4">
+            Created by{" "}
+            <Link
+              href={`/sellers/${product.seller_id}`}
+              className="font-semibold text-[#254441] underline underline-offset-2"
+            >
+              {product.seller_name}
+            </Link>
+          </p>
+
+          <p className="text-2xl font-bold mt-4">${product.price}</p>
+
           {avgRating && (
-            <p className="text-sm text-gray-600 mt-1">
-              ★ {avgRating} out of 5 ({reviews.length} review
-              {reviews.length !== 1 ? "s" : ""})
+            <p className="text-sm mt-2">
+              <span className="text-[#C9962B]">
+                {"★".repeat(Math.round(Number(avgRating)))}
+                {"☆".repeat(5 - Math.round(Number(avgRating)))}
+              </span>{" "}
+              <span className="font-medium">{avgRating} out of 5</span>{" "}
+              <span className="text-gray-500">
+                ({reviews.length} review{reviews.length !== 1 ? "s" : ""})
+              </span>
             </p>
           )}
-          <p className="text-gray-700 mt-4">{product.description}</p>
 
-          <div className="mt-6 border-t border-gray-200 pt-4">
-            <p className="text-xs text-gray-500">Sold by</p>
-            <p className="font-semibold">{product.seller_name}</p>
-            {product.seller_bio && (
-              <p className="text-sm text-gray-600 mt-1">{product.seller_bio}</p>
-            )}
+          <div className="mt-6 flex gap-3">
+            <Link
+              href={`/sellers/${product.seller_id}`}
+              className="bg-[#254441] text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-[#1a312e] transition-colors"
+            >
+              Meet the artisan
+            </Link>
+            <Link
+              href="/products"
+              className="border border-gray-300 px-5 py-2.5 rounded-full text-sm font-medium hover:border-[#254441] transition-colors"
+            >
+              Back to products
+            </Link>
           </div>
         </div>
       </div>

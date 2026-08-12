@@ -1,0 +1,29 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="woodBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E7EDE3"/>
+      <stop offset="100%" stop-color="#D3DDCB"/>
+    </linearGradient>
+    <linearGradient id="woodBoard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A9713B"/>
+      <stop offset="100%" stop-color="#8E4230"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#woodBg)"/>
+  <ellipse cx="200" cy="320" rx="140" ry="18" fill="#254441" opacity="0.12"/>
+
+  <!-- Tabla -->
+  <rect x="90" y="150" width="220" height="130" rx="14" fill="url(#woodBoard)"/>
+  <rect x="90" y="150" width="220" height="130" rx="14" fill="none" stroke="#5F4023" stroke-width="3" opacity="0.4"/>
+  <!-- veta de madera -->
+  <path d="M110 175 Q200 168 290 175" stroke="#5F4023" stroke-width="3" fill="none" opacity="0.35"/>
+  <path d="M110 205 Q200 198 290 205" stroke="#5F4023" stroke-width="3" fill="none" opacity="0.35"/>
+  <path d="M110 235 Q200 228 290 235" stroke="#5F4023" stroke-width="3" fill="none" opacity="0.35"/>
+  <path d="M110 260 Q200 254 290 260" stroke="#5F4023" stroke-width="3" fill="none" opacity="0.35"/>
+  <!-- agujero para colgar -->
+  <circle cx="200" cy="165" r="8" fill="#5F4023" opacity="0.5"/>
+
+  <!-- decoración: manzana -->
+  <circle cx="260" cy="230" r="16" fill="#B5563C"/>
+  <path d="M260 214 q4 -8 10 -4" stroke="#5F7350" stroke-width="3" fill="none"/>
+</svg>

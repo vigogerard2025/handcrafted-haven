@@ -1,0 +1,38 @@
+<svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="500" height="400" fill="#F1E7D6"/>
+  <ellipse cx="250" cy="370" rx="220" ry="14" fill="#254441" opacity="0.08"/>
+
+  <!-- Ventana -->
+  <rect x="60" y="60" width="150" height="150" rx="8" fill="#254441"/>
+  <rect x="72" y="72" width="126" height="126" fill="#F6EFE2"/>
+  <rect x="130" y="72" width="10" height="126" fill="#254441"/>
+  <rect x="72" y="129" width="126" height="10" fill="#254441"/>
+  <circle cx="105" cy="105" r="18" fill="#C9962B"/>
+
+  <!-- Mesa -->
+  <rect x="70" y="290" width="380" height="20" fill="#254441"/>
+  <rect x="90" y="310" width="16" height="60" fill="#254441"/>
+  <rect x="420" y="310" width="16" height="60" fill="#254441"/>
+
+  <!-- Persona (vista trasera, sentada) -->
+  <g>
+    <ellipse cx="290" cy="150" rx="36" ry="40" fill="#1a2e2b"/> <!-- cabello -->
+    <circle cx="290" cy="180" r="10" fill="#B5563C"/> <!-- cuello -->
+    <path d="M240 300 Q240 210 290 200 Q340 210 340 300 Z" fill="#5F7350"/> <!-- torso -->
+    <path d="M255 230 Q220 250 215 285" stroke="#5F7350" stroke-width="24" stroke-linecap="round" fill="none"/> <!-- brazo izq -->
+    <path d="M325 230 Q360 250 355 275" stroke="#5F7350" stroke-width="24" stroke-linecap="round" fill="none"/> <!-- brazo der -->
+    <circle cx="213" cy="288" r="12" fill="#B5563C"/>
+    <circle cx="356" cy="278" r="12" fill="#B5563C"/>
+  </g>
+
+  <!-- Jarrón en la mesa -->
+  <path d="M275 260 C272 270 270 285 270 295 C270 308 278 315 290 315 C302 315 310 308 310 295 C310 285 308 270 305 260 Z" fill="#F6EFE2" stroke="#C9962B" stroke-width="2"/>
+
+  <!-- Vaso a un lado -->
+  <rect x="210" y="270" width="26" height="30" rx="3" fill="#F6EFE2" stroke="#8E4230" stroke-width="2"/>
+
+  <!-- Planta -->
+  <rect x="360" y="270" width="40" height="30" rx="4" fill="#D8C7A8"/>
+  <path d="M375 270 Q365 240 350 235" stroke="#5F7350" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M385 270 Q400 235 415 230" stroke="#254441" stroke-width="6" fill="none" stroke-linecap="round"/>
+</svg>

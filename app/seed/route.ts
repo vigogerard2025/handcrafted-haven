@@ -91,7 +91,7 @@ async function seedProducts() {
       description: "Soft, warm scarf woven on a traditional loom.",
       price: 45.0,
       category: "Textiles",
-      image_url: "/images/category-textiles.svg",
+      image_url: "/images/product-scarf.svg",
     },
     {
       seller: james.id,
@@ -99,7 +99,7 @@ async function seedProducts() {
       description: "Durable cutting board made from reclaimed oak.",
       price: 38.5,
       category: "Woodwork",
-      image_url: "/images/category-woodwork.svg",
+      image_url: "/images/product-cutting-board.svg",
     },
     {
       seller: aiko.id,
@@ -107,7 +107,7 @@ async function seedProducts() {
       description: "Hand-thrown vase with a matte glaze finish.",
       price: 52.0,
       category: "Pottery",
-      image_url: "/images/category-pottery.svg",
+      image_url: "/images/product-vase.svg",
     },
     {
       seller: maria.id,
@@ -115,7 +115,7 @@ async function seedProducts() {
       description: "Colorful table runner inspired by Andean patterns.",
       price: 29.0,
       category: "Textiles",
-      image_url: "/images/category-textiles.svg",
+      image_url: "/images/product-table-runner.svg",
     },
   ];
 

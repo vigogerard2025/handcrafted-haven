@@ -1,0 +1,29 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="vaseBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F1E7D6"/>
+      <stop offset="100%" stop-color="#E4D5BC"/>
+    </linearGradient>
+    <linearGradient id="vaseBody" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#E4D5BC"/>
+      <stop offset="45%" stop-color="#F6EFE2"/>
+      <stop offset="100%" stop-color="#D8C7A8"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#vaseBg)"/>
+  <ellipse cx="200" cy="320" rx="90" ry="14" fill="#254441" opacity="0.12"/>
+
+  <!-- Jarrón -->
+  <path d="M175 140 C170 160 165 190 165 220 C165 260 175 290 200 290 C225 290 235 260 235 220 C235 190 230 160 225 140 Z" fill="url(#vaseBody)" stroke="#C9962B" stroke-width="2" opacity="0.9"/>
+  <ellipse cx="200" cy="140" rx="26" ry="8" fill="#D8C7A8"/>
+
+  <!-- Ramas secas -->
+  <g stroke="#8E4230" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M195 140 C190 100 175 80 165 55"/>
+    <path d="M205 140 C210 95 225 75 235 50"/>
+    <path d="M200 140 C200 90 200 70 200 40"/>
+  </g>
+  <circle cx="165" cy="55" r="5" fill="#C9962B"/>
+  <circle cx="235" cy="50" r="5" fill="#5F7350"/>
+  <circle cx="200" cy="40" r="5" fill="#B5563C"/>
+</svg>

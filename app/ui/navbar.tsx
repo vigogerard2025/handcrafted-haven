@@ -11,6 +11,9 @@ export default async function Navbar() {
           Handcrafted Haven
         </Link>
         <nav className="flex items-center gap-6 text-sm font-medium">
+          <Link href="/" className="hover:text-[#254441]">
+            Home
+          </Link>
           <Link href="/products" className="hover:text-[#254441]">
             Products
           </Link>
@@ -34,7 +37,7 @@ export default async function Navbar() {
                   await signOut({ redirectTo: "/" });
                 }}
               >
-                <button className="text-gray-700 hover:text-[#254441]">
+                <button className="text-gray-700 hover:text-[#254441] cursor-pointer">
                   Sign out
                 </button>
               </form>
